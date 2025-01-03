@@ -52,9 +52,9 @@ class Polyline_Drawing(Screen):
         self.add_widget(self.ploath)
         self.ploath.bind(size=self.update)
         self.bind(size=self.update_background)
-        self.bind(pos=self.update)
-        self.max_x = 0
-        self.max_y = 0
+        # self.bind(pos=self.update)
+        self.max_x = 10
+        self.max_y = 10
         self.y_name = Label(text=y_name, size_hint=(None, None), pos_hint={"x":0, "center_y":.5}, color=(0,0,0,1))
         self.y_name.bind(texture_size=self.y_name.setter("size"))
         self.add_widget(self.y_name)
@@ -72,6 +72,9 @@ class Polyline_Drawing(Screen):
         add_line = list1(xlist=x_list,ylist=y_list,color=color, width=width, **kwargs)
         self.max_x = self.max_x if self.max_x>max(x_list) else max(x_list)
         self.max_y = self.max_y if self.max_y>max(y_list) else max(y_list)
+
+        print(self.max_y)
+        print(self.max_x)
         self.ploath.canvas.add(Color(*color))
         self.ploath.canvas.add(add_line)
         self.ploath.data_line.append(add_line)
@@ -105,9 +108,6 @@ class Polyline_Drawing(Screen):
                     self.ploath.add_widget(lxs)
                     self.ploath.canvas.add(Color(*i.color))
                     self.ploath.canvas.add(Line(dash_length=1,dash_offset=1, points=[x * (widget.width * (1 / self.max_x)), 0,x * (widget.width * (1 / self.max_x)), y*widget.height * (1 / self.max_y)], width=1))
-                    # self.ploath.canvas.add(Rectangle(size=[2, y * (widget.height * (1 / self.max_y))], pos=[]))
-
-
 
                     lys = Label(text=str(y), size_hint=(None, None), pos=[-30,y * (widget.height * (1 / self.max_y))],
                                color=i.color)
@@ -135,16 +135,3 @@ class Polyline_Drawing(Screen):
                 lx.bind(texture_size=lx.setter("size"))
                 self.ploath.add_widget(lx)
 
-#
-# from kivy.app import App
-#
-# class Clist(App):
-#     def build(self):
-#         self.body = Polyline_Drawing(meun=True)
-#         self.body.plot(x_list=[0,1,2,3,4,5,6],y_list=[12,52,34,43,50,61,24], color=(0,1,0,1))
-#         self.body.plot(x_list=[0, 1, 2, 3, 4, 5, 6], y_list=[11, 42, 33, 42, 54, 6, 25])
-#         print(type(self.body.plot))
-#         return self.body
-
-
-# Clist().run()
